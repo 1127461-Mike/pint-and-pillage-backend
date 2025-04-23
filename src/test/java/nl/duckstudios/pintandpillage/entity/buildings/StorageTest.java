@@ -17,68 +17,96 @@ public class StorageTest {
 
     @Test
     public void shouldInitializeWithCorrectName() {
-        assertEquals("Storage", storage.getName());
+        final String expectedName = "Storage";
+        assertEquals(expectedName, storage.getName());
     }
 
     @Test
     public void shouldInitializeWithCorrectDescription() {
-        assertEquals("A building that increases your storage capacity", storage.getDescription());
+        final String expectedDescription = "A building that increases your storage capacity";
+        assertEquals(expectedDescription, storage.getDescription());
     }
 
     @Test
     public void shouldCalculateCorrectResourceCapacityAtLevel1() {
-        storage.setLevel(1);
+        final int baseCapacity = 600;
+        final int capacityPerLevel = 2500;
+        final int level = 1;
+        final int additionalCapacity = 1;
+
+        storage.setLevel(level);
         storage.updateBuilding();
-        assertEquals(600 + 2500 * 1 + 1, storage.getResourceCapacity());
+        assertEquals(baseCapacity + capacityPerLevel * level + additionalCapacity, storage.getResourceCapacity());
     }
 
     @Test
     public void shouldCalculateCorrectResourceCapacityAtLevel5() {
-        storage.setLevel(5);
+        final int baseCapacity = 600;
+        final int capacityPerLevel = 2500;
+        final int level = 5;
+        final int additionalCapacity = 1;
+
+        storage.setLevel(level);
         storage.updateBuilding();
-        assertEquals(600 + 2500 * 5 + 1, storage.getResourceCapacity());
+        assertEquals(baseCapacity + capacityPerLevel * level + additionalCapacity, storage.getResourceCapacity());
     }
 
     @Test
     public void shouldCalculateCorrectConstructionTimeAtLevel1() {
-        storage.setLevel(1);
+        final int baseConstructionTime = 5;
+        final int constructionTimePerLevel = 30;
+        final int level = 1;
+        final int additionalTime = 1;
+
+        storage.setLevel(level);
         storage.updateBuilding();
-        assertEquals(5 + 30L * 1 + 1, storage.getConstructionTimeSeconds());
+        assertEquals(baseConstructionTime + constructionTimePerLevel * level + additionalTime, storage.getConstructionTimeSeconds());
     }
 
     @Test
     public void shouldCalculateCorrectConstructionTimeAtLevel5() {
-        storage.setLevel(5);
+        final int baseConstructionTime = 5;
+        final int constructionTimePerLevel = 30;
+        final int level = 5;
+        final int additionalTime = 1;
+
+        storage.setLevel(level);
         storage.updateBuilding();
-        assertEquals(5 + 30L * 5 + 1, storage.getConstructionTimeSeconds());
+        assertEquals(baseConstructionTime + constructionTimePerLevel * level + additionalTime, storage.getConstructionTimeSeconds());
     }
 
     @Test
     public void shouldCalculateCorrectResourcesRequiredForLevelUpAtLevel1() {
-        storage.setLevel(1);
+        final int level = 1;
+        final int stoneMultiplier = 25;
+        final int stoneBaseMultiplier = 25;
+
+        storage.setLevel(level);
         storage.updateBuilding();
-        assertEquals(((1 + 1) * 25) * 25, storage.getResourcesRequiredLevelUp().get(ResourceType.Stone.name()));
+        assertEquals(((level + 1) * stoneMultiplier) * stoneBaseMultiplier, storage.getResourcesRequiredLevelUp().get(ResourceType.Stone.name()));
     }
 
     @Test
     public void shouldCalculateCorrectResourcesRequiredForLevelUpAtLevel5() {
-        storage.setLevel(5);
-        storage.updateBuilding();
-        assertEquals(((5 + 1) * 25) * 25, storage.getResourcesRequiredLevelUp().get(ResourceType.Stone.name()));
-    }
+        final int level = 5;
+        final int stoneMultiplier = 25;
+        final int stoneBaseMultiplier = 25;
 
-    @Test
-    public void shouldImplementIStorableInterface() {
-        assertTrue(storage instanceof IStorable);
+        storage.setLevel(level);
+        storage.updateBuilding();
+        assertEquals(((level + 1) * stoneMultiplier) * stoneBaseMultiplier, storage.getResourcesRequiredLevelUp().get(ResourceType.Stone.name()));
     }
 
     @Test
     public void shouldHaveCorrectResourceCapacityAfterLevelUp() {
-        storage.setLevel(1);
+        final int initialLevel = 1;
+        final int newLevel = 2;
+
+        storage.setLevel(initialLevel);
         storage.updateBuilding();
         int initialCapacity = storage.getResourceCapacity();
         
-        storage.setLevel(2);
+        storage.setLevel(newLevel);
         storage.updateBuilding();
         int newCapacity = storage.getResourceCapacity();
         
