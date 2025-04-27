@@ -4,5 +4,6 @@ public enum ResourceType {
     Wood,
     Stone,
     Hop,
-    Beer
+    Beer,
+    Plank
 }
