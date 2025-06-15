@@ -73,13 +73,27 @@ public class VillageService {
         }
     }
 
-    private boolean isValidCreateDistance(Village village, Coord newPosition) {
+    public boolean isValidCreateDistance(Village village, Coord newPosition) {
         if (newPosition == null) {
             return false;
         }
 
         final int maxDistance = 5;
         return this.distanceService.calculateDistance(new Coord(village.getPositionX(), village.getPositionY()), newPosition) <= maxDistance;
+    }
+
+    public boolean hasJarl(Village village) {
+        return village.getUnitInVillage(UnitType.Jarl).getAmount() >= 1;
+    }
+
+    public int calculateDistance(Coord pos1, Coord pos2) {
+        return this.distanceService.calculateDistance(pos1, pos2);
+    }
+
+    public boolean isValidPosition(Coord position, int maxX, int maxY) {
+        return position != null && 
+               position.getX() >= 0 && position.getX() <= maxX &&
+               position.getY() >= 0 && position.getY() <= maxY;
     }
 
     private void updateCombatState(Village village) {
